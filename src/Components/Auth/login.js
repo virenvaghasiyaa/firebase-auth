@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 import { auth } from '../../firebase-config';
 import './login.scss';
 
@@ -11,7 +11,8 @@ export default function Login() {
         password: ''
     });
     const [error, setError] = useState('');
-    const [redirect, setRedirect] = useState(false)
+    const [redirect, setRedirect] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -26,16 +27,19 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
             const user = await signInWithEmailAndPassword(
                 auth,
                 state.email,
                 state.password
             );
+            setIsLoading(false);
             console.log(user);
             setRedirect(true);
         } catch (error) {
             setError(error.message);
+            setIsLoading(false)
             console.log(error.message);
         }
     }
@@ -49,8 +53,11 @@ export default function Login() {
     return (
         <>
             <div className='py-5 d-flex align-items-center justify-content-center vh-100'>
-                <div className='login-container'>
-                    <h1 className='text-center mb-4'>Log In</h1>
+                <div className='center-container'>
+                    <div className='text-center mb-4'>
+                        <h1 className='text-center'>Log In</h1>
+                        <p className='small text-muted'>Welcome back! Please enter your details</p>
+                    </div>
                     <form onSubmit={handleLogin}>
                         <div className='mb-3'>
                             <label htmlFor="email" className='mb-2'>Email</label>
@@ -75,9 +82,11 @@ export default function Login() {
                                 onChange={handleChange}
                                 placeholder='enter your password'
                             />
-                            {error ? <p className='small text-danger text-break'>{error}</p> : ''}
+                            {error ? <p className='small text-danger text-break mb-1'>{error}</p> : ''}
+                            <p className='text-end mb-0'><Link to='/forgot-password' className='text-decoration-none fw-semibold'>Reset password?</Link></p>
                         </div>
-                        <button type='submit' className='btn btn-dark w-100'>Log In</button>
+                        <button type='submit' className='btn btn-dark w-100 mb-4 fw-bold'>{isLoading ? 'Loading...' : 'Log In'}</button>
+                        <p className='text-center mb-0'>don't have an account? <Link to='/signup' className='text-decoration-none fw-bold'>signup here</Link></p>
                     </form>
                 </div>
             </div>

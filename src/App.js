@@ -5,6 +5,7 @@ import PrivateRouting from './Components/Auth/Route/PrivateRouting';
 import Signup from './Components/Auth/signup';
 import Home from './Components/Home/home';
 import { AuthProvider } from './Contexts/AuthContext';
+import ForgotPassword from "./Components/Auth/forgotPassword";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               </PrivateRouting>}
           />
 
+            <Route path='forgot-password' element={<ForgotPassword/>}/>
         </Routes>
       </AuthProvider>
     </>

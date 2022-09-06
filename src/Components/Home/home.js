@@ -4,7 +4,7 @@ import {useAuth} from '../../Contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 
 export default function Home() {
-  const {logout} = useAuth();
+  const {logout, currentUser} = useAuth();
   const [redirect, setRedirect] = useState(false);
 
   const handleLogout = async () => {
@@ -23,7 +23,8 @@ export default function Home() {
   }
   return (
     <>
-      <div className='img-banner vh-100'>Home
+      <div className='img-banner vh-100'>
+      {currentUser && currentUser.email}
         <button className='btn btn-info' onClick={handleLogout}>logout</button>
       </div>
     </>

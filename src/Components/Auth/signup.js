@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 import { useAuth } from '../../Contexts/AuthContext';
 
 export default function Signup() {
@@ -12,6 +12,7 @@ export default function Signup() {
   const { signup } = useAuth();
   const [error, setError] = useState('');
   const [redirect, setRedirect] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -26,17 +27,19 @@ export default function Signup() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     if (state.password !== state.confirmPassword) {
-      return setError('Passwords do not match! try again!')
+      return setError(`Passwords doesn't match! try again!`);
     }
 
     try {
       setError('');
       await signup(state.email, state.password);
+      setIsLoading(false);
       setRedirect(true);
     } catch (err) {
       setError(err.message);
+      setIsLoading(false);
     }
   }
 
@@ -48,7 +51,7 @@ export default function Signup() {
   return (
     <>
       <div className='py-5 d-flex align-items-center justify-content-center vh-100'>
-        <div className='login-container'>
+        <div className='center-container'>
           <h1 className='text-center mb-4'>Sign Up</h1>
           <form onSubmit={handleSignUp}>
             <div className='mb-3'>
@@ -88,7 +91,8 @@ export default function Signup() {
               />
               {error ? <p className='small text-danger text-break'>{error}</p> : ''}
             </div>
-            <button type='submit' className='btn btn-dark w-100' >Sign Up</button>
+            <button type='submit' className='btn btn-dark w-100 mb-4 fw-bold'>{isLoading ? 'Loading...' : 'Sign up'}</button>
+            <p className='mb-0 text-center'>already have an account? <Link to='/' className='text-decoration-none fw-bold'>Login</Link></p>
           </form>
         </div>
       </div>
