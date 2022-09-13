@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './home.scss';
 import {useAuth} from '../../Contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function Home() {
   const {logout, currentUser} = useAuth();
@@ -10,9 +11,14 @@ export default function Home() {
   const handleLogout = async () => {
     try{
       await logout();
+      toast.success('user logout successfully!', {
+        theme: 'dark'
+      })
       setRedirect(true);
     }catch(error){
-      console.log(error.message);
+      toast.error(`${error.message}`, {
+        theme: 'light'
+      });
     }
   }
 
@@ -23,7 +29,7 @@ export default function Home() {
   }
   return (
     <>
-      <div className='img-banner vh-100'>
+      <div className=''>
       {currentUser && currentUser.email}
         <button className='btn btn-info' onClick={handleLogout}>logout</button>
       </div>

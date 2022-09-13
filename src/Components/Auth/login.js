@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import {Link, Navigate} from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { auth } from '../../firebase-config';
 import './login.scss';
 
@@ -35,12 +36,17 @@ export default function Login() {
                 state.password
             );
             setIsLoading(false);
+            toast.success('User login successfully!', {
+                theme: 'dark'
+            });
             console.log(user);
             setRedirect(true);
         } catch (error) {
             setError(error.message);
-            setIsLoading(false)
-            console.log(error.message);
+            toast.error(`${error.message}`, {
+                theme: 'colored'
+              });
+            setIsLoading(false);
         }
     }
 
