@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {Link, Navigate} from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAuth } from '../../Contexts/AuthContext';
 
 export default function Signup() {
@@ -36,9 +37,15 @@ export default function Signup() {
       setError('');
       await signup(state.email, state.password);
       setIsLoading(false);
+      toast.success('User created successfully!', {
+        theme: 'dark'
+      });
       setRedirect(true);
-    } catch (err) {
-      setError(err.message);
+    } catch (error) {
+      toast.error(`${error.message}`, {
+        theme: 'colored'
+      })
+      setError(error.message);
       setIsLoading(false);
     }
   }

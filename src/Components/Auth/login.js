@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { auth } from "../../firebase-config";
 import "./login.scss";
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const [state, setState] = useState({
@@ -34,12 +35,17 @@ export default function Login() {
         state.password
       );
       setIsLoading(false);
+      toast.success("User login successfully!", {
+        theme: "dark",
+      });
       console.log(user);
       setRedirect(true);
     } catch (error) {
       setError(error.message);
+      toast.error(`${error.message}`, {
+        theme: "colored",
+      });
       setIsLoading(false);
-      console.log(error.message);
     }
   };
 

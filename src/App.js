@@ -6,10 +6,24 @@ import Signup from './Components/Auth/signup';
 import Home from './Components/Home/home';
 import { AuthProvider } from './Contexts/AuthContext';
 import ForgotPassword from "./Components/Auth/forgotPassword";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
       <AuthProvider>
         <Routes>
 
@@ -23,7 +37,7 @@ function App() {
               </PrivateRouting>}
           />
 
-            <Route path='forgot-password' element={<ForgotPassword/>}/>
+          <Route path='forgot-password' element={<ForgotPassword />} />
         </Routes>
       </AuthProvider>
     </>

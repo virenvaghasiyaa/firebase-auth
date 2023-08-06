@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../Contexts/AuthContext";
+import { toast } from 'react-toastify';
 
 function ForgotPassword(props) {
   const [state, setState] = useState({
@@ -27,9 +28,15 @@ function ForgotPassword(props) {
       setError("");
       await resetPassword(state.email);
       setIsLoading(false);
-    } catch (err) {
+      toast.success("reset requested! please check your email!", {
+        theme: "dark",
+      });
+    } catch (error) {
       setIsLoading(false);
-      setError(err.message);
+      setError(error.message);
+      toast.error(`${error.message}`, {
+        theme: "colored",
+      });
     }
   };
 
