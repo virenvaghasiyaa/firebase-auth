@@ -73,4 +73,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 <!-- login credentials -->
 
 email: test@gmail.com
-password: test@gmail.com
+password: test@123
